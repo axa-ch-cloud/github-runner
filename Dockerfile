@@ -18,23 +18,21 @@ RUN apt-get update \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m github \
+    && useradd -m runner \
     && usermod -aG sudo github \
     && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER github
 WORKDIR /home/github
 
-COPY --chown=github:github entrypoint.sh runsvc.sh ./
+COPY --chown=runner:runner entrypoint.sh runsvc.sh ./
+
+RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh
 
 RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/runner/releases/latest" | jq -r '.tag_name[1:]') \
     && curl -Ls https://github.com/actions/runner/releases/download/v${GITHUB_RUNNER_VERSION}/actions-runner-linux-x64-${GITHUB_RUNNER_VERSION}.tar.gz | tar xz \
     && sudo --preserve-env=HTTP_PROXY --preserve-env=HTTPS_PROXY --preserve-env=http_proxy --preserve-env=https_proxy ./bin/installdependencies.sh 
 
-
-
-RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh \
-    && sudo o+x ./entrypoint.sh
-
-USER fred
+USER runner
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
