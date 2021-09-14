@@ -30,6 +30,7 @@ RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/
     && curl -Ls https://github.com/actions/runner/releases/download/v${GITHUB_RUNNER_VERSION}/actions-runner-linux-x64-${GITHUB_RUNNER_VERSION}.tar.gz | tar xz \
     && mv -f installdependencies.sh bin/installdependencies.sh \
     && chmod +x bin/installdependencies.sh \
+    && cat bin/installdependencies.sh \
     && sudo ./bin/installdependencies.sh 
 
 
