@@ -31,7 +31,7 @@ RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/
     && mv -f installdependencies.sh bin/installdependencies.sh \
     && chmod +x bin/installdependencies.sh \
     && cat bin/installdependencies.sh \
-    && sudo ./bin/installdependencies.sh 
+    && sudo --preserve-env=HTTP_PROXY --preserve-env=HTTPS_PROXY --preserve-env=http_proxy --preserve-env=https_proxy ./bin/installdependencies.sh 
 
 
 
