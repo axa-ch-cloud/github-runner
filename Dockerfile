@@ -24,11 +24,16 @@ RUN apt-get update \
 USER github
 WORKDIR /home/github
 
+COPY --chown=github:github installdependencies.sh entrypoint.sh runsvc.sh ./
+
 RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/runner/releases/latest" | jq -r '.tag_name[1:]') \
     && curl -Ls https://github.com/actions/runner/releases/download/v${GITHUB_RUNNER_VERSION}/actions-runner-linux-x64-${GITHUB_RUNNER_VERSION}.tar.gz | tar xz \
-    && sudo ./bin/installdependencies.sh
+    && mv -f installdependencies.sh bin/installdependencies.sh \
+    && chmod +x bin/installdependencies.sh \
+    && sudo ./bin/installdependencies.sh 
 
-COPY --chown=github:github entrypoint.sh runsvc.sh ./
+
+
 RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
