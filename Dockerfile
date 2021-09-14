@@ -20,7 +20,7 @@ RUN apt-get update \
     && useradd -m github \
     && useradd -m runner \
     && usermod -aG sudo github \
-    && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    && echo "github ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER github
 WORKDIR /home/github
