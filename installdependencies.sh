@@ -50,20 +50,14 @@ then
         echo "------------------------------"
         
         # prefer apt-get over apt
-        command -v apt-get
+        command -v apt
         if [ $? -eq 0 ]
         then
-            apt_get='apt-get -o Debug::Acquire::http=true -o Debug::Acquire::https=true'
+            apt_get='apt -o Debug::Acquire::http=true -o Debug::Acquire::https=true'
         else
-            command -v apt
-            if [ $? -eq 0 ]
-            then
-                apt_get='apt -o Debug::Acquire::http=true -o Debug::Acquire::https=true'
-            else
-                echo "Found neither 'apt-get' nor 'apt'"
-                print_errormessage
-                exit 1
-            fi
+            echo "'apt' not found"
+            print_errormessage
+            exit 1
         fi
 
         $apt_get update && $apt_get install -y liblttng-ust0 libkrb5-3 zlib1g
