@@ -9,7 +9,7 @@ ENV RUNNER_LABELS ""
 ENV ADDITIONAL_PACKAGES ""
 
 RUN apt-get update \
-    && apt-get install -y \
+    && apt-get -o Debug::Acquire::http=true -o Debug::Acquire::https=true install -y \
         curl \
         sudo \
         git \
