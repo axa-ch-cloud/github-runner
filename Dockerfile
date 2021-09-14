@@ -32,6 +32,9 @@ RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/
 
 
 
-RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh
+RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh \
+    && sudo o+x ./entrypoint.sh
+
+USER fred
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
