@@ -27,7 +27,7 @@ else
     fi
 
     echo "Requesting token at '${token_url}'"
-
+    whoami
     echo $GITHUB_PAT
     payload=$(curl -vX POST -H "Authorization: token ${GITHUB_PAT}" ${token_url})
     echo $payload
