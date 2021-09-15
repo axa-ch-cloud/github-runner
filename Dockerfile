@@ -24,15 +24,14 @@ RUN apt-get update \
 USER github
 WORKDIR /home/github
 
-COPY --chown=github:github entrypoint.sh runsvc.sh ./
-
-RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh \
-    && sudo chgrp -R 0 /home/github/ \
-    && sudo chmod -R g+rwx /home/github/
-
 RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/runner/releases/latest" | jq -r '.tag_name[1:]') \
     && curl -Ls https://github.com/actions/runner/releases/download/v${GITHUB_RUNNER_VERSION}/actions-runner-linux-x64-${GITHUB_RUNNER_VERSION}.tar.gz | tar xz \
-    && sudo --preserve-env=HTTP_PROXY --preserve-env=HTTPS_PROXY --preserve-env=http_proxy --preserve-env=https_proxy ./bin/installdependencies.sh 
+    && sudo --preserve-env=HTTP_PROXY --preserve-env=HTTPS_PROXY --preserve-env=http_proxy --preserve-env=https_proxy ./bin/installdependencies.sh \
+    && sudo chgrp -R 0 /home/github \
+    && sudo chmod -R g+w /home/github 
+
+COPY --chown=github:github entrypoint.sh runsvc.sh ./
+RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
 
