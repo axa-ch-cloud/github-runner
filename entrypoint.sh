@@ -32,7 +32,7 @@ else
     payload=$(curl -vX POST -H "Authorization: token ${GITHUB_PAT}" ${token_url})
     echo $payload
     echo $(echo $payload | jq .token --raw-output)
-    RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
+    export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
     echo $RUNNER_TOKEN
 
 fi
@@ -63,8 +63,6 @@ echo '#########################'
     --labels "${RUNNER_LABELS}" \
     --unattended \
     --replace
-
-export RUNNER_TOKEN=$RUNNER_TOKEN
 
 remove() {
     if [ -n "${GITHUB_TOKEN}" ]; then
