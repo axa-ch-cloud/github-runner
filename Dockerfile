@@ -30,8 +30,8 @@ RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/
     && sudo chgrp -R 0 /home/github \
     && sudo chmod -R g+w /home/github 
 
-COPY --chown=github:github entrypoint.sh runsvc.sh ./
-RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh
+COPY --chown=github:root entrypoint.sh runsvc.sh ./
+RUN sudo chmod ug+x ./entrypoint.sh ./runsvc.sh
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
 
