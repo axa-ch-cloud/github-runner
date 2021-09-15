@@ -37,6 +37,20 @@ if [ -z "${RUNNER_NAME}" ]; then
     RUNNER_NAME=$(hostname)
 fi
 
+echo '#########################'
+echo $RUNNER_NAME
+echo $RUNNER_TOKEN
+echo $registration_url
+echo $RUNNER_WORKDIR
+echo $RUNNER_LABELS
+echo $HTTPS_PROXY
+echo $HTTP_PROXY
+echo $https_proxy
+echo $http_proxy
+echo $no_proxy
+
+echo '#########################'
+
 ./config.sh \
     --name "${RUNNER_NAME}" \
     --token "${RUNNER_TOKEN}" \
