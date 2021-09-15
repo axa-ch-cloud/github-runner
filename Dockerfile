@@ -35,3 +35,5 @@ RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/
     && sudo --preserve-env=HTTP_PROXY --preserve-env=HTTPS_PROXY --preserve-env=http_proxy --preserve-env=https_proxy ./bin/installdependencies.sh 
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
+
+USER 1001
