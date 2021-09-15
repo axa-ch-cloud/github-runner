@@ -28,7 +28,8 @@ else
 
     echo "Requesting token at '${token_url}'"
 
-    payload=$(curl -sX POST -H "Authorization: token ${GITHUB_PAT}" ${token_url})
+    echo $GITHUB_PAT
+    payload=$(curl -vX POST -H "Authorization: token ${GITHUB_PAT}" ${token_url})
     echo $payload
     echo $(echo $payload | jq .token --raw-output)
     RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
