@@ -22,14 +22,14 @@ RUN apt-get update \
     && echo "github ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER github
-WORKDIR /etc/github
+WORKDIR /home/github
 
 COPY --chown=github:github entrypoint.sh runsvc.sh ./
 
 RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh \
-    && sudo chown -R root:root /etc/github \
-    && sudo chgrp -R 0 /etc/github/ \
-    && sudo chmod -R 777 /etc/github/
+    && sudo chown -R root:root /home/github \
+    && sudo chgrp -R 0 /home/github/ \
+    && sudo chmod -R 777 /home/github/
 
 RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/runner/releases/latest" | jq -r '.tag_name[1:]') \
     && curl -Ls https://github.com/actions/runner/releases/download/v${GITHUB_RUNNER_VERSION}/actions-runner-linux-x64-${GITHUB_RUNNER_VERSION}.tar.gz | tar xz \
