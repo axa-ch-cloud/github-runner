@@ -27,7 +27,6 @@ WORKDIR /home/github
 COPY --chown=github:github entrypoint.sh runsvc.sh ./
 
 RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh \
-    && sudo chown -R root:root /home/github \
     && sudo chgrp -R 0 /home/github/ \
     && sudo chmod -R 777 /home/github/
 
