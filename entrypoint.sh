@@ -64,7 +64,7 @@ echo '#########################'
     --unattended \
     --replace
 
-export RUNNER_TOKER=$RUNNER_TOKEN
+export RUNNER_TOKEN=$RUNNER_TOKEN
 
 remove() {
     if [ -n "${GITHUB_TOKEN}" ]; then
