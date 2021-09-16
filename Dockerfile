@@ -38,10 +38,13 @@ RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/
     && curl -Ls https://github.com/actions/runner/releases/download/v${GITHUB_RUNNER_VERSION}/actions-runner-linux-x64-${GITHUB_RUNNER_VERSION}.tar.gz | tar xz \
     && sudo --preserve-env=HTTP_PROXY --preserve-env=HTTPS_PROXY --preserve-env=http_proxy --preserve-env=https_proxy ./bin/installdependencies.sh \
     && sudo chgrp -R 0 /home/github \
-    && sudo chmod -R g+w /home/github 
-
+    && sudo chmod -R g+w /home/github \
+    && usermod -a -G docker 1001860000
+    
 COPY --chown=github:root entrypoint.sh runsvc.sh ./
 RUN sudo chmod ug+x ./entrypoint.sh ./runsvc.sh
+
+USER 1001860000
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
 
