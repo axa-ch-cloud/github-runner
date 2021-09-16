@@ -19,12 +19,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m github \
     && usermod -aG sudo github \
-    && echo "github ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
-    && mkdir /.kube
-
+    && echo "github ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    
 USER github
 WORKDIR /home/github
-COPY kubeconfig.yaml /.kube/kubeconfig
 
 RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/runner/releases/latest" | jq -r '.tag_name[1:]') \
     && curl -Ls https://github.com/actions/runner/releases/download/v${GITHUB_RUNNER_VERSION}/actions-runner-linux-x64-${GITHUB_RUNNER_VERSION}.tar.gz | tar xz \
