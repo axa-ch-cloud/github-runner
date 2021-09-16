@@ -1,0 +1,17 @@
+apiVersion: v2
+name: github-runner
+version: 1.0.0
+description: self-hosted GitHub runner for GitHub Actions
+type: application
+keywords:
+    - GitHub
+    - GitHub-Actions
+    - GitHub-Runner
+sources:
+    - https://github.com/axa-ch-cloud/github-runner
+maintainers: # (optional)
+    - name: Laurin Schneider
+      email: laurin.schneider@axa.ch
+    - name: Matthias Gubler
+      email: matthias.gubler@axa.ch
+appVersion: latest
