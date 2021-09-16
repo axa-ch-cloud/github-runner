@@ -1,7 +1,7 @@
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
-  name: github-runner 
+  name: github-runner
   labels:
     app: github-runner
 spec:
@@ -24,24 +24,26 @@ spec:
         app: github-runner
     spec:
       containers:
-        - name: vesba-rest
-        image: >-
-            image-registry.openshift-image-registry.svc:5000/trap-dev-axa-ch/github-actions-runner:latest
-        env:
-          - name: GITHUB_OWNER
-            value: axa-ch-cloud
-          - name: GITHUB_PAT
-            valueFrom:
-              secretKeyRef:
-                name: trap-github-token
-                key: token
-          - name: HELM_KUBECAFILE
-            value: /cacert/cacerts
-          - name: HELM_KUBEAPISERVER
-            value: 'https://kubernetes.default.svc:443'
-          - name: no_proxy
-            value: kubernetes.default.svc
-        resources: 
+      - env:
+        - name:
+          value: RUNNER_LABELS
+          value: axa-trap-runner
+        - name: GITHUB_OWNER
+          value: axa-ch-cloud
+        - name: GITHUB_PAT
+          valueFrom:
+            secretKeyRef:
+              name: trap-github-token
+              key: token
+        - name: HELM_KUBECAFILE
+          value: /cacert/cacerts
+        - name: HELM_KUBEAPISERVER
+          value: 'https://kubernetes.default.svc:443'
+        - name: no_proxy
+          value: kubernetes.default.svc
+        name: github-runner
+        image: image-registry.openshift-image-registry.svc:5000/trap-dev-axa-ch/github-actions-runner:latest
+        resources:
           {{- toYaml .Values.resources.container | nindent 10 }}
         volumeMounts:
           - name: volume-cacert
@@ -49,10 +51,15 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         imagePullPolicy: Always
+      volumes:
+      - name: volume-cacert
+        secret:
+          secretName: cacerts-red
+          defaultMode: 420
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
-      securityContext: 
+      securityContext:
         runAsUser: 1001860000
       terminationGracePeriodSeconds: 40
   test: false

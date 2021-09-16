@@ -5,7 +5,7 @@ resources:
       cpu: 500m
       memory: 256Mi
     requests:
-      cpu: 250mm
+      cpu: 250m
       memory: 256Mi
   # Compute Resources required by the vesba-rest container.
   container:
