@@ -20,7 +20,7 @@ RUN apt-get update \
     && useradd -m github \
     && usermod -aG sudo github \
     && echo "github ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-    
+
 USER github
 WORKDIR /home/github
 
@@ -38,6 +38,7 @@ RUN curl -v -skL -o /tmp/helm.tar.gz https://get.helm.sh/helm-v3.7.0-linux-amd64
         rm -rf /tmp/linux-amd64
 
 COPY --chown=github:root entrypoint.sh runsvc.sh ./
+COPY cacerts ./
 RUN sudo chmod ug+x ./entrypoint.sh ./runsvc.sh
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
