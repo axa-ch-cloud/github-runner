@@ -1,0 +1,59 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: github-runner 
+  labels:
+    app: github-runner
+spec:
+  replicas: {{ .Values.replicas }}
+  revisionHistoryLimit: 5
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources:
+      {{- toYaml .Values.resources.deployment | nindent 6 }}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      labels:
+        app: github-runner
+    spec:
+      containers:
+        - name: vesba-rest
+        image: >-
+            image-registry.openshift-image-registry.svc:5000/trap-dev-axa-ch/github-actions-runner:latest
+        env:
+          - name: GITHUB_OWNER
+            value: axa-ch-cloud
+          - name: GITHUB_PAT
+            valueFrom:
+              secretKeyRef:
+                name: trap-github-token
+                key: token
+          - name: HELM_KUBECAFILE
+            value: /cacert/cacerts
+          - name: HELM_KUBEAPISERVER
+            value: 'https://kubernetes.default.svc:443'
+          - name: no_proxy
+            value: kubernetes.default.svc
+        resources: 
+          {{- toYaml .Values.resources.container | nindent 10 }}
+        volumeMounts:
+          - name: volume-cacert
+            mountPath: /cacert
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        imagePullPolicy: Always
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: 
+        runAsUser: 1001860000
+      terminationGracePeriodSeconds: 40
+  test: false
+  triggers: []

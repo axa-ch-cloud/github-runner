@@ -1,0 +1,19 @@
+resources:
+  # Resources contains resource requirements to execute the deployment and any hooks.
+  deployment:
+    limits:
+      cpu: 500m
+      memory: 256Mi
+    requests:
+      cpu: 250mm
+      memory: 256Mi
+  # Compute Resources required by the vesba-rest container.
+  container:
+    limits:
+      cpu: 93m
+      memory: 256Mi
+    requests:
+      cpu: 61m
+      memory: 256Mi
+
+replicas: 1
