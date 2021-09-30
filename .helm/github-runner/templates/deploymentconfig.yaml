@@ -39,7 +39,12 @@ spec:
         - name: HELM_KUBEAPISERVER
           value: 'https://kubernetes.default.svc:443'
         - name: no_proxy
-          value: kubernetes.default.svc
+          value: kubernetes.default.svc,api.red.switzerlandnorth.azure.openpaas.axa-cloud.com
+        - name: PIPELINE_SA_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: pipeline-token-66vnl
+              key: token
         name: github-runner
         image: image-registry.openshift-image-registry.svc:5000/trap-dev-axa-ch/github-actions-runner:latest
         resources:
