@@ -42,7 +42,7 @@ RUN curl -v -skL -o /tmp/helm.tar.gz https://get.helm.sh/helm-v3.7.0-linux-amd64
         sudo chmod -R 775 /usr/local/bin/helm && \
         rm -rf /tmp/helm.tar.gz && \
         rm -rf /tmp/linux-amd64 && \
-	mkdir /.kube && \
+	sudo mkdir /.kube && \
         sudo chgrp -R 0 /.kube && \
 	sudo chmod -R g+w /.kube
 
