@@ -12,10 +12,7 @@ ADD https://github.com/openshift/origin/releases/download/v3.11.0/openshift-orig
 
 RUN tar --strip-components=1 -xzvf  /opt/oc/release.tar.gz -C /opt/oc/ && \
     mv /opt/oc/oc /usr/bin/ && \
-    rm -rf /opt/oc && \
-    mkdir /.kube && \
-    chmod -R 0 /.kube && \
-    chmod -R g+w /.kube
+    rm -rf /opt/oc
 
 RUN apt-get update \
     && apt-get install -y \
@@ -44,7 +41,10 @@ RUN curl -v -skL -o /tmp/helm.tar.gz https://get.helm.sh/helm-v3.7.0-linux-amd64
         sudo mv /tmp/linux-amd64/helm /usr/local/bin && \
         sudo chmod -R 775 /usr/local/bin/helm && \
         rm -rf /tmp/helm.tar.gz && \
-        rm -rf /tmp/linux-amd64
+        rm -rf /tmp/linux-amd64 && \
+	mkdir /.kube && \
+        sudo chgrp -R 0 /.kube && \
+	sudo chmod -R g+w /.kube
 
 COPY --chown=github:root entrypoint.sh runsvc.sh ./
 RUN sudo chmod ug+x ./entrypoint.sh ./runsvc.sh
