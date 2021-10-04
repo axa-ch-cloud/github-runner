@@ -11,9 +11,6 @@ resources:
   container:
     limits:
       cpu: 93m
-      memory: 256Mi
-    requests:
-      cpu: 61m
-      memory: 256Mi
+      memory: 512Mi
 
 replicas: 1
