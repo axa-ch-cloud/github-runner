@@ -49,5 +49,8 @@ RUN curl -v -skL -o /tmp/helm.tar.gz https://get.helm.sh/helm-v3.7.0-linux-amd64
 COPY --chown=github:root entrypoint.sh runsvc.sh ./
 RUN sudo chmod ug+x ./entrypoint.sh ./runsvc.sh
 
+COPY [ "certs/AXA-Enterprise-Root-CA.pem", "certs/AXA-Proxy-ROOT-CA.pem", "/usr/local/share/ca-certificates/" ]
+RUN update-ca-certificates
+
 ENTRYPOINT ["/home/github/entrypoint.sh"]
 

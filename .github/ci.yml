@@ -1,0 +1,26 @@
+name: Continous Integration
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  APP_NAME: trap-github-runner
+  TRAP_GH_ACTOR: CodeDatPiece
+  IMAGE_ID: ghcr.io/axa-ch-cloud/trap-github-runner
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build docker image
+        run: docker build -f Dockerfile -t $APP_NAME .
+      - name: Log into registry
+        run: echo "${{ secrets.TRAP_GH_TOKEN }}" | docker login ghcr.io -u $TRAP_GH_ACTOR --password-stdin
+      - name: Push image
+        run: |
+            docker tag $APP_NAME $IMAGE_ID:$GITHUB_SHA
+            docker push $IMAGE_ID:$GITHUB_SHA
+            docker tag $APP_NAME $IMAGE_ID:latest
+            docker push $IMAGE_ID:latest
