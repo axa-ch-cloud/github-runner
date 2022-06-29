@@ -64,6 +64,8 @@ echo '#########################'
     --unattended \
     --replace
 
+echo 'Config finished'
+
 remove() {
     if [ -n "${GITHUB_TOKEN}" ]; then
         export REMOVE_TOKEN=$GITHUB_TOKEN
@@ -77,6 +79,8 @@ remove() {
 
 trap 'remove; exit 130' INT
 trap 'remove; exit 143' TERM
+
+echo 'Running runsvc.sh'
 
 ./runsvc.sh "$*" &
 
