@@ -27,7 +27,7 @@ RUN apt-get update \
     && usermod -aG sudo github \
     && echo "github ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-COPY [ "certs/AXA-Enterprise-Root-CA.pem", "certs/AXA-Proxy-ROOT-CA.pem", "/usr/local/share/ca-certificates/" ]
+COPY [ "certs/AXA-Enterprise-Root-CA.crt", "certs/AXA-Proxy-ROOT-CA.crt", "/usr/local/share/ca-certificates/" ]
 RUN update-ca-certificates
 
 USER github
