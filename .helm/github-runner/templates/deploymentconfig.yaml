@@ -40,13 +40,33 @@ spec:
           value: 'https://kubernetes.default.svc:443'
         - name: no_proxy
           value: kubernetes.default.svc,api.red.switzerlandnorth.azure.openpaas.axa-cloud.com
+        - name: HTTP_PROXY
+          valueFrom:
+            secretKeyRef:
+              name: swissproxy
+              key: proxy_url
+        - name: HTTPS_PROXY
+          valueFrom:
+            secretKeyRef:
+              name: swissproxy
+              key: proxy_url
+        - name: http_proxy
+          valueFrom:
+            secretKeyRef:
+              name: swissproxy
+              key: proxy_url
+        - name: https_proxy
+          valueFrom:
+            secretKeyRef:
+              name: swissproxy
+              key: proxy_url
         - name: PIPELINE_SA_TOKEN
           valueFrom:
             secretKeyRef:
               name: pipeline-token-66vnl
               key: token
         name: github-runner
-        image: image-registry.openshift-image-registry.svc:5000/trap-dev-axa-ch/github-actions-runner:latest
+        image: ghcr.io/axa-ch-cloud/trap-github-runner:latest
         resources:
           {{- toYaml .Values.resources.container | nindent 10 }}
         volumeMounts:
@@ -65,6 +85,8 @@ spec:
       schedulerName: default-scheduler
       securityContext:
         runAsUser: 1001860000
+      imagePullSecrets:
+        - name: docker-github-trap
       terminationGracePeriodSeconds: 40
   test: false
   triggers: []
