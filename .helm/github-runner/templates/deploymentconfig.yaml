@@ -63,7 +63,7 @@ spec:
         - name: PIPELINE_SA_TOKEN
           valueFrom:
             secretKeyRef:
-              name: pipeline-token-66vnl
+              name: pipeline-token-5wqng
               key: token
         name: github-runner
         image: ghcr.io/axa-ch-cloud/trap-github-runner:latest
