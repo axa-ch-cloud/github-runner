@@ -52,5 +52,14 @@ RUN curl -v -skL -o /tmp/helm.tar.gz https://get.helm.sh/helm-v3.7.0-linux-amd64
 COPY --chown=github:root entrypoint.sh runsvc.sh ./
 RUN sudo chmod ug+x ./entrypoint.sh ./runsvc.sh
 
+COPY contrib/bin/* /usr/local/bin/
+COPY contrib/tmp/* /tmp/
+
+RUN chmod a+x /usr/local/bin/{age,helm} && \
+    mkdir -p "$(helm env HELM_PLUGINS)" && \
+    tar -C "$(helm env HELM_PLUGINS)" -xzf /tmp/helm-secrets.tar.gz && \
+    rpm -i /tmp/sops-3.7.2-1.x86_64.rpm && \
+    rm /tmp/{helm-secrets.tar.gz,sops-3.7.2-1.x86_64.rpm}
+
 ENTRYPOINT ["/home/github/entrypoint.sh"]
 
