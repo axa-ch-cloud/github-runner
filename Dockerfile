@@ -52,8 +52,8 @@ RUN curl -v -skL -o /tmp/helm.tar.gz https://get.helm.sh/helm-v3.7.0-linux-amd64
 COPY --chown=github:root entrypoint.sh runsvc.sh ./
 RUN sudo chmod ug+x ./entrypoint.sh ./runsvc.sh
 
-COPY contrib/bin/* /usr/local/bin/
-COPY contrib/tmp/* /tmp/
+COPY --chown=github:root contrib/bin/* /usr/local/bin/
+COPY --chown=github:root contrib/tmp/* /tmp/
 
 RUN chmod a+x /usr/local/bin/age && \
     mkdir -p "$(helm env HELM_PLUGINS)" && \
