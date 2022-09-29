@@ -55,7 +55,7 @@ RUN sudo chmod ug+x ./entrypoint.sh ./runsvc.sh
 COPY --chown=github:root contrib/bin/* /usr/local/bin/
 COPY --chown=github:root contrib/tmp/* /tmp/
 
-RUN chmod a+x /usr/local/bin/age && \
+RUN sudo chmod a+x /usr/local/bin/age && \
     mkdir -p "$(helm env HELM_PLUGINS)" && \
     tar -C "$(helm env HELM_PLUGINS)" -xzf /tmp/helm-secrets.tar.gz && \
     rpm -i /tmp/sops-3.7.2-1.x86_64.rpm && \
