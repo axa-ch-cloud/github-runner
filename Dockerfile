@@ -55,11 +55,12 @@ RUN sudo chmod ug+x ./entrypoint.sh ./runsvc.sh
 COPY contrib/bin/* /usr/local/bin/
 COPY contrib/tmp/* /tmp/
 
-RUN chmod a+x /usr/local/bin/{age,helm} && \
+RUN chmod a+x /usr/local/bin/age && \
     mkdir -p "$(helm env HELM_PLUGINS)" && \
     tar -C "$(helm env HELM_PLUGINS)" -xzf /tmp/helm-secrets.tar.gz && \
     rpm -i /tmp/sops-3.7.2-1.x86_64.rpm && \
-    rm /tmp/{helm-secrets.tar.gz,sops-3.7.2-1.x86_64.rpm}
+    rm /tmp/helm-secrets.tar.gz && \
+    rm /tmp/sops-3.7.2-1.x86_64.rpm
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
 
