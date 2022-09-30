@@ -25,6 +25,8 @@ spec:
     spec:
       containers:
       - env:
+        - name: SOPS_AGE_KEY_FILE
+          value: /home/github/config/keys.txt
         - name: RUNNER_LABELS
           value: axa-trap-runner
         - name: GITHUB_OWNER
@@ -72,6 +74,9 @@ spec:
         volumeMounts:
           - name: volume-cacert
             mountPath: /cacert
+        volumeMount:
+            - name: volume-age-key
+              mountPath: /home/github/config
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         imagePullPolicy: Always
@@ -79,6 +84,10 @@ spec:
       - name: volume-cacert
         secret:
           secretName: cacerts-red
+          defaultMode: 420
+      - name: volume-age-key
+        secret:
+          secretName: age-secret-key
           defaultMode: 420
       dnsPolicy: ClusterFirst
       restartPolicy: Always
