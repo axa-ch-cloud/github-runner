@@ -39,7 +39,7 @@ RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/
     && sudo chgrp -R 0 /home/github \
     && sudo chmod -R g+w /home/github
 
-RUN curl -v -skL -o /tmp/helm.tar.gz https://get.helm.sh/helm-v3.7.0-linux-amd64.tar.gz && \
+RUN curl -v -skL -o /tmp/helm.tar.gz https://get.helm.sh/helm-v3.10.0-linux-amd64.tar.gz && \
         tar -C /tmp -xzf /tmp/helm.tar.gz && \
         sudo mv /tmp/linux-amd64/helm /usr/local/bin && \
         sudo chmod -R 775 /usr/local/bin/helm && \
