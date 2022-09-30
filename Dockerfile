@@ -56,8 +56,8 @@ COPY --chown=github:root contrib/bin/* /usr/local/bin/
 COPY --chown=github:root contrib/tmp/* /tmp/
 
 RUN sudo chmod a+x /usr/local/bin/age && \
-    mkdir -p "$(helm env HELM_PLUGINS)" && \
-    tar -C "$(helm env HELM_PLUGINS)" -xzf /tmp/helm-secrets.tar.gz && \
+    sudo mkdir -p "/.local/share/helm/plugins" && \
+    tar -C "/.local/share/helm/plugins" -xzf /tmp/helm-secrets.tar.gz && \
     curl -v -skL -o /tmp/sops https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux.amd64 && \
     sudo mv /tmp/sops /usr/local/bin/ && \
     sudo chmod -R 775 /usr/local/bin/sops && \
