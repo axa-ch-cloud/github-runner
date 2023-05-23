@@ -22,6 +22,8 @@ spec:
     metadata:
       labels:
         app: github-runner
+      annotations:
+        dynatrace.com/inject: 'false'
     spec:
       containers:
       - env:
